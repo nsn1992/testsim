@@ -7,3 +7,8 @@ gunzip res/genome/ecoli.fasta.gz
     echo "Running STAR index..."
     mkdir -p res/genome/star_index
     STAR --runThreadN 4 --runMode genomeGenerate --genomeDir res/genome/star_index/ --genomeFastaFiles res/genome/ecoli.fasta --genomeSAindexNbases 9
+# Thirdly, read each sampleid and  bash the script to process them
+for sid in $(ls data/*.fastq.gz | cut -d "_" -f1 | sed 's:data/::' | sort | uniq)
+do
+   bash scripts/analyse_sample.sh $sid
+done
